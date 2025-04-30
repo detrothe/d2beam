@@ -78,7 +78,7 @@ import SlButton from "@shoelace-style/shoelace/dist/components/button/button.js"
 
 
 //########################################################################################################################
-let theFooter = '2D structural analysis of frames and trusses, v1.4.4, 12-Februar-2025, ';
+let theFooter = '2D structural analysis of frames and trusses, v1.4.5, 30-April-2025, ';
 //########################################################################################################################
 
 let dialog_querschnitt_new = true;
@@ -423,7 +423,7 @@ Bearbeitet von: Melis Muster" title="Buchstaben in Fett durch <b> und </b> einra
         <table>
           <tbody>
             <tr>
-              <td style="background-color:lightgray;">&nbsp;</td>
+              <td>&nbsp;</td>
               <td>
               <dr-tabelle
                 id="id_element_tabelle"
@@ -434,7 +434,7 @@ Bearbeitet von: Melis Muster" title="Buchstaben in Fett durch <b> und </b> einra
                 colwidth='["4","8","2","3","3","2","2","2","2","2","2","3","3","4"]'
               ></dr-tabelle>
               </td>
-              <td style="background-color:lightgray;">&nbsp;</td>
+              <td>&nbsp;</td>
               </tr>
           </tbody>
         </table>
@@ -1454,7 +1454,7 @@ export function add_new_cross_section(qName: string, id: string) {
   //div.id='div_add_cross_section'
   div.style.display = "flex";
   div.style.alignItems = "center";
-  div.style.backgroundColor = "#f5f5f5";
+  // div.style.backgroundColor = "#f5f5f5";
   div.style.border = "0px";
 
   div.appendChild(quer_button);
