@@ -78,8 +78,10 @@ import SlButton from "@shoelace-style/shoelace/dist/components/button/button.js"
 
 
 //########################################################################################################################
-let theFooter = '2D structural analysis of frames and trusses, v1.4.5, 30-April-2025, ';
+let theFooter = '2D structural analysis of frames and trusses, v1.4.6, 3-Juni-2025, ';
 //########################################################################################################################
+
+let hostname = window.location.hostname
 
 let dialog_querschnitt_new = true;
 let dialog_querschnitt_index = 0;
@@ -304,6 +306,7 @@ Bearbeitet von: Melis Muster" title="Buchstaben in Fett durch <b> und </b> einra
 
         <div id="id_container" class="footer" >${theFooter}
           <a href="https://statikverstehen.de">&#169; statikverstehen.de</a>
+          , ${hostname}
         </div>
 
       </sl-tab-panel>

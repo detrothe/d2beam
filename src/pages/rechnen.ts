@@ -2866,6 +2866,22 @@ async function calculate() {
                         }
                     }
 
+                       for (let ieload = 0; ieload < neloads; ieload++) {
+                        const index = eload[ieload].lf - 1
+                        if (kombiTabelle[iKomb - 1][index] !== 0.0) {
+                            if ((eload[ieload].art === 8)) {
+
+                                for (let k = 0; k < 3; k++) {
+
+                                    if (eload[ieload].ieq0[k] >= 0) {
+                                        let ieq = eload[ieload].ieq0[k]
+                                        R_internal[ieq] = 0.0
+                                    }
+                                }
+                            }
+                        }
+                    }
+
                     // Überprüfe Konvergenz der Verformungen und Kräfte
 
                     {

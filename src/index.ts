@@ -17,15 +17,15 @@ const isAndroid = navigator.userAgent.toLowerCase().indexOf("android") > -1;
 console.log("isAndroid =", isAndroid, navigator.userAgent.toLowerCase().indexOf("android"))
 
 // let dbPromise: any;
-let input: any;
+let input: string | null;
 
 if (isAndroid) {
 
     window.addEventListener('load', () => {
         input = window.localStorage.getItem('current_input');
         // write('LOAD  current input = ' + input.length)
-        console.log('LOAD  current input = ', input.length)
-        if (input.length > 0) {
+        //console.log('LOAD  current input = ', input.length)
+        if (input !== null && input.length > 0) {
             autoEingabeLesen();
             // read_daten(input);
             // rechnen(1)
@@ -54,10 +54,15 @@ if (isAndroid) {
         //write(navigator.userAgent);
         //write('Android visibilitychange = ' + document.visibilityState)
         // fires when user switches tabs, apps, goes to homescreen, etc.
-        if (document.visibilityState === 'hidden') { write('Android hidden') }
+        if (document.visibilityState === 'hidden') {
+            //write('Android hidden')
+             window.localStorage.setItem('current_input', str_inputToJSON());
+        }
 
         // fires when app transitions from prerender, user returns to the app / tab.
-        if (document.visibilityState === 'visible') { write('Android visible') }
+        if (document.visibilityState === 'visible') {
+            //write('Android visible')
+            }
     });
 
     //     window.addEventListener('beforeunload', function (event) {
@@ -162,8 +167,8 @@ if (isAndroid) {
     window.addEventListener('load', () => {
         input = window.localStorage.getItem('current_input');
         //write('LOAD  current input = ' + input.length)
-        console.log('LOAD  current input = ', input.length)
-        if (input.length > 0) {
+        //console.log('LOAD  current input = ', input.length)
+        if (input !== null && input.length > 0) {
             autoEingabeLesen();
         }
     });
@@ -197,7 +202,7 @@ async function autoEingabeLesen() {
     const loesche = await dialog.confirm();
 
     if (loesche) {
-        read_daten(input);
+        if (input !== null) read_daten(input);
         rechnen(1)
     }
 
