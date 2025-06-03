@@ -128,7 +128,7 @@ table {
 
 /* Style the footer */
 .footer {
-  /* grid-area: footer;  */
+  color: #181818;
   background-color: #f1f1f1;
   margin: 0;
   padding: 0;
