@@ -1974,8 +1974,8 @@ export function drawsystem(svg_id = 'artboard') {
                             let zpix = (z1 + z2 + z3 + z4) / 4
                             const str = myFormat(Math.abs(valueLeftPos), 1, 2) + unit
                             let txt = two.makeText(str, xpix, zpix, style_txt)
-                            txt.alignment = 'left'
-                            txt.baseline = 'top'
+                            txt.alignment = 'center'
+                            txt.baseline = 'middle'
                             txt.rotation = element[ielem].alpha
                         } else {
                             if (foundPos && (Math.abs(maxValuePos) > 0.00001) && (maxValuePos > valueRightPos)) {
