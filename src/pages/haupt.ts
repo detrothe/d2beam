@@ -78,7 +78,7 @@ import SlButton from "@shoelace-style/shoelace/dist/components/button/button.js"
 
 
 //########################################################################################################################
-let theFooter = '2D structural analysis of frames and trusses, v1.5.0, 3-Juli-2025, ';
+let theFooter = '2D structural analysis of frames and trusses, v1.5.0.a, 3-Juli-2025, ';
 //########################################################################################################################
 
 let hostname = window.location.hostname

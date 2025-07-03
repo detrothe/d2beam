@@ -26,7 +26,8 @@
     <!-- This tag is used by the PWA D2BEAM CLI to identify template projects. Don't remove if you are using the CLI. -->
     <meta name="pwa-starter-template-identity" content="pwa-starter" />
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" /> -->
+    <link rel="stylesheet" href="./src/styles/font-awesome.css" />
 
     <!-- Imports an icon to represent the document. -->
     <link rel="icon" href="/assets/icons/24x24.png" type="image/png" />
@@ -47,13 +48,8 @@
          onload="document.documentElement.classList.add('sl-theme-dark');"
       />
  -->
- <link rel="stylesheet" media="(prefers-color-scheme:light)" href="./src/styles/light.css" />
- <link
-  rel="stylesheet"
-  media="(prefers-color-scheme:dark)"
-  href="./src/styles/dark.css"
-  onload="document.documentElement.classList.add('sl-theme-dark');"
-/>
+    <link rel="stylesheet" media="(prefers-color-scheme:light)" href="./src/styles/light.css" />
+    <link rel="stylesheet" media="(prefers-color-scheme:dark)" href="./src/styles/dark.css" onload="document.documentElement.classList.add('sl-theme-dark');" />
 
     <!--
       <script>
@@ -110,8 +106,8 @@
 
   <body>
     <script>
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js');
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("sw.js");
       }
 
       // listen to the service worker promise in index.html to see if there has been a new update.
@@ -131,7 +127,7 @@
          */
     </script>
 
-<!--    <div id="container">
+    <!--    <div id="container">
       <footer class="footer">
         2D structural analysis of frames and trusses, v1.2.1,b, 2-Juli-2024,
         <a href="https://statikverstehen.de">&#169; statikverstehen.de</a>
