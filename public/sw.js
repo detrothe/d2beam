@@ -1,6 +1,9 @@
 importScripts(
     'https://storage.googleapis.com/workbox-cdn/releases/7.3.0/workbox-sw.js'
 );
+
+const version = '1.5.0.1';
+console.log('Version', version);
 /*
 // This is your Service Worker, you can put any of your custom Service Worker
 // code in this file, above the `precacheAndRoute` line.

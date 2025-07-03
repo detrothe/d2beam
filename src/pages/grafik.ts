@@ -1374,7 +1374,7 @@ export function drawsystem(svg_id = 'artboard') {
 
 
             let scalefactor = 0.1 * slmax / maxValue_eigv[ikomb - 1][draw_eigenform - 1]    //maxValue_komb[iLastfall - 1].disp
-
+            if (maxValue_eigv[ikomb - 1][draw_eigenform - 1] < 0.01) scalefactor = 0.1 * slmax
             scalefactor *= scaleFactor_panel
 
             //console.log("scalefaktor", scalefactor, slmax, maxValue_lf[draw_eigenform - 1].disp)
@@ -2054,7 +2054,7 @@ export function drawsystem(svg_id = 'artboard') {
                 z2 = Math.round(tr.zPix(stab[ielem].z2));
 
                 let line = two.makeLine(x1, z1, x2, z2);
-                if (onlyLabels) line.linewidth = 10 / devicePixelRatio;
+                if (onlyLabels) line.linewidth = 8 / devicePixelRatio;
                 else line.linewidth = 5 / devicePixelRatio;
 
                 // gestrichelte Faser
@@ -2104,7 +2104,7 @@ export function drawsystem(svg_id = 'artboard') {
                     //console.log("elem", ielem, x1, z1, x2, z2)
 
                     let line = two.makeLine(x1, z1, x2, z2);
-                    if (onlyLabels) line.linewidth = 10 / devicePixelRatio;
+                    if (onlyLabels) line.linewidth = 8 / devicePixelRatio;
                     else if (show_verformungen || show_eigenformen || show_dyn_eigenformen || show_schiefstellung || show_stabvorverformung) line.linewidth = 2 / devicePixelRatio;
                     else line.linewidth = 5 / devicePixelRatio;
 
@@ -2284,7 +2284,7 @@ export function drawsystem(svg_id = 'artboard') {
 
     if (show_knotenmassen && show_selection) draw_knotenmassen(two);
 
-    draw_lager(two);
+    draw_lager(two, onlyLabels);
 
     if (show_systemlinien || !show_selection) {
         //if (flag_eingabe != 0 || nur_eingabe_ueberpruefen)
@@ -2493,7 +2493,7 @@ function draw_dyn_eigenformen(_frameCount: any, _timeDelta: any) {
             }
         }
 
-        draw_lager(two);
+        draw_lager(two,false);
 
         for (let ielem = 0; ielem < nelem; ielem++) {
 
@@ -3502,8 +3502,10 @@ function draw_lagerkraefte(two: Two) {
 }
 
 //--------------------------------------------------------------------------------------------------------
-function draw_lager(two: Two) {
+function draw_lager(two: Two, onlyLabels: boolean) {
     //----------------------------------------------------------------------------------------------------
+
+    let faktor = 1.0 / Math.min(devicePixelRatio, 1.5)
 
     for (let i = 0; i < nnodes; i++) {
 
@@ -3512,6 +3514,14 @@ function draw_lager(two: Two) {
         let phi = -node[i].phi * Math.PI / 180
 
         if (System === STABWERK) {
+
+            // Knoten zeichnen
+
+            let knSize = 7 / devicePixelRatio;
+            if (onlyLabels) knSize = 9 / devicePixelRatio;
+            let kn1 = two.makeRectangle(x1, z1, knSize, knSize)
+            kn1.fill = 'black'
+
             if (((node[i].L_org[0] === 1) && (node[i].L_org[1] === 1) && (node[i].L_org[2] === 1)) ||
                 ((node[i].kx > 0.0) && (node[i].kz > 0.0) && (node[i].L[2] === -1))) {  // Volleinspannung oder mit zwei Translkationsfedern
                 let rechteck = two.makeRectangle(x1, z1, 20, 20)
@@ -3645,8 +3655,10 @@ function draw_lager(two: Two) {
 
             }
         } else {                     // Fachwerk
+
+            let group = two.makeGroup();
+
             if ((node[i].L[0] === -1) && (node[i].L[1] === -1)) { // zweiwertiges Lager
-                let group = two.makeGroup();
                 //console.log("in zweiwertiges Lager")
                 var vertices = [];
                 vertices.push(new Two.Anchor(0, 0));
@@ -3661,15 +3673,14 @@ function draw_lager(two: Two) {
                 line.linewidth = 2;
 
                 group.add(line)
-                group.scale = 1.0 / devicePixelRatio
 
-                group.rotation = phi
-
-                group.translation.set(x1, z1)
+                // group.scale = 1.0 / devicePixelRatio
+                // group.rotation = phi
+                // group.translation.set(x1, z1)
 
             }
             else if ((node[i].L[0] >= 0) && (node[i].L[1] === -1)) { // einwertiges horizontal verschieblisches Lager
-                let group = two.makeGroup();
+                //let group = two.makeGroup();
                 //console.log("in einwertiges horizontal verschieblisches Lager")
                 var vertices = [];
                 vertices.push(new Two.Anchor(0, 0));
@@ -3684,37 +3695,43 @@ function draw_lager(two: Two) {
                 line.linewidth = 2;
 
                 group.add(line)
-                group.scale = 1.0 / devicePixelRatio
 
-                group.rotation = phi
-
-                group.translation.set(x1, z1)
+                // group.scale = 1.0 / devicePixelRatio
+                // group.rotation = phi
+                // group.translation.set(x1, z1)
 
             }
             else if ((node[i].L[0] === -1) && (node[i].L[1] >= 0)) { // einwertiges vertikal verschieblisches Lager
-                let group = two.makeGroup();
+                //let group = two.makeGroup();
                 //console.log("in einwertiges vertikales Lager")
                 var vertices = [];
                 vertices.push(new Two.Anchor(0, 0));
-                vertices.push(new Two.Anchor(-12, 20));
-                vertices.push(new Two.Anchor(12, 20));
+                vertices.push(new Two.Anchor(20, -12));
+                vertices.push(new Two.Anchor(20, 12));
 
                 let flaeche = two.makePath(vertices);
                 flaeche.fill = '#dddddd';
                 group.add(flaeche)
 
-                let line = two.makeLine(-18, 25, 18, 25);
+                let line = two.makeLine(25, -18, 25, 18);
                 line.linewidth = 2;
 
                 group.add(line)
-                group.scale = 1.0 / devicePixelRatio
 
-
-                group.rotation = -1.5708 + phi
-                group.translation.set(x1, z1)
+                // group.scale = 1.0 / devicePixelRatio
+                // group.rotation = -1.5708 + phi
+                // group.translation.set(x1, z1)
 
             }
 
+            let knSize = 6 // devicePixelRatio;
+            let circle = two.makeCircle(0, 0, knSize, 8)
+            circle.fill = '#ffffff'
+            group.add(circle);
+
+            group.scale = faktor // 1.0 / devicePixelRatio
+            group.rotation = phi
+            group.translation.set(x1, z1)
         }
 
         if (node[i].kx > 0.0) {
