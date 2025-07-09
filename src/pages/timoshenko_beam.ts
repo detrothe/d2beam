@@ -1688,6 +1688,33 @@ export class CTimoshenko_beam extends CElement {
                     ux = this.edispL[3 * iteil]
                     wx = this.edispL[3 * iteil + 1]
                     phix = -this.edispL[3 * iteil + 2]
+
+                    for (let ieload = 0; ieload < neloads; ieload++) {
+                        if ((eload[ieload].element === ielem) && (eload[ieload].lf - 1 === iLastf)) {
+
+                            if (eload[ieload].art === 8) {         // Knotenverformung
+                                let edisp0 = Array(6)
+                                for (let i = 0; i < 6; i++) edisp0[i] = eload[ieload].dispL0[i];
+                                let x = this.x_[iteil]
+                                const x2 = x * x
+                                Nu[0] = (1.0 - x / sl);
+                                Nu[1] = x / sl
+                                Nw[0] = (2. * x ** 3 - 3. * sl * x ** 2 - 12. * eta * x + sl ** 3 + 12. * eta * sl) / nenner;
+                                Nw[1] = -((sl * x ** 3 + (-2. * sl ** 2 - 6. * eta) * x ** 2 + (sl ** 3 + 6. * eta * sl) * x) / nenner);
+                                Nw[2] = -((2. * x ** 3 - 3. * sl * x ** 2 - 12. * eta * x) / nenner);
+                                Nw[3] = -((sl * x ** 3 + (6. * eta - sl ** 2) * x ** 2 - 6. * eta * sl * x) / nenner);
+                                ux += Nu[0] * edisp0[0] + Nu[1] * edisp0[3]
+                                wx += Nw[0] * edisp0[1] + Nw[1] * edisp0[2] + Nw[2] * edisp0[4] + Nw[3] * edisp0[5];
+
+                                Nphi[0] = 6.0 * (sl * x - x2) / nenner
+                                Nphi[1] = (3 * sl * x2 + (-12 * eta - 4 * sl2) * x + 12 * sl * eta + sl3) / nenner
+                                Nphi[2] = -6.0 * (sl * x - x2) / nenner
+                                Nphi[3] = (3 * sl * x2 + (12 * eta - 2 * sl2) * x) / nenner
+                                phix -= Nphi[0] * edisp0[1] + Nphi[1] * edisp0[2] + Nphi[2] * edisp0[4] + Nphi[3] * edisp0[5];  // im Uhrzeigersinn
+                            }
+                        }
+                    }
+
                     press = -wx * this.k_0
 
                     disp = Math.sqrt(ux * ux + wx * wx) * 1000.0      // in mm
@@ -1717,6 +1744,10 @@ export class CTimoshenko_beam extends CElement {
                     ux = this.edispL[3 * iteil]
                     wx = this.edispL[3 * iteil + 1]
                     phix = -this.edispL[3 * iteil + 2]
+
+                    // TODO     noch knotenverformung einbauen    !!!!!!!
+
+
                     press = -wx * this.k_0
 
                     disp = Math.sqrt(ux * ux + wx * wx) * 1000.0
