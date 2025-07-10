@@ -38,15 +38,7 @@ import { reset_gui } from "./mypanelgui";
 import DetectOS from "./detectos";
 
 import { addListener_filesave } from "./dateien";
-import {
-  select_loadcase_changed,
-  select_eigenvalue_changed,
-  select_dyn_eigenvalue_changed,
-  copy_svg,
-  drawsystem,
-  click_zurueck_grafik,
-  reset_controlpanel_grafik,
-} from "./grafik";
+import { select_loadcase_changed, select_eigenvalue_changed, select_dyn_eigenvalue_changed, copy_svg, drawsystem, click_zurueck_grafik, reset_controlpanel_grafik } from "./grafik";
 import { myFormat, set_info, write } from "./utility";
 
 import { my_jspdf } from "./mypdf";
@@ -70,18 +62,17 @@ import {
   show_gleichungssystem,
   setSystem,
   System,
-  hideColumnsForFachwerk
+  hideColumnsForFachwerk,
 } from "./rechnen";
 
 import { ConfirmDialog, AlertDialog } from "./confirm_dialog";
 import SlButton from "@shoelace-style/shoelace/dist/components/button/button.js";
 
-
 //########################################################################################################################
-let theFooter = '2D structural analysis of frames and trusses, v1.5.1, 9-Juli-2025, ';
+let theFooter = "2D structural analysis of frames and trusses, v1.5.2, 10-Juli-2025, ";
 //########################################################################################################################
 
-let hostname = window.location.hostname
+let hostname = window.location.hostname;
 
 let dialog_querschnitt_new = true;
 let dialog_querschnitt_index = 0;
@@ -198,7 +189,7 @@ portrait.addEventListener("change", function (e) {
 
     <sl-tab-group id="id_sl_tab_group">
       <sl-tab id="id_tab_group" slot="nav" panel="tab-haupt">Haupt</sl-tab>
-      <sl-tab slot="nav" panel="tab-grafik">Grafik</sl-tab>
+      <sl-tab slot="nav" panel="tab-grafik">Ergebnisse</sl-tab>
       <sl-tab id="id_quer" slot="nav" panel="tab-querschnitte">Querschnitte</sl-tab>
       <sl-tab slot="nav" panel="tab-knoten">Knoten</sl-tab>
       <sl-tab slot="nav" panel="tab-elemente">Elemente</sl-tab>
@@ -206,7 +197,7 @@ portrait.addEventListener("change", function (e) {
       <sl-tab slot="nav" panel="tab-elementlasten">Elementlasten</sl-tab>
       <sl-tab slot="nav" panel="tab-stabvorverfomungen">Vorverformungen</sl-tab>
       <sl-tab id="id_tab_kombi" slot="nav" panel="tab-kombinationen">Kombinationen</sl-tab>
-      <sl-tab slot="nav" panel="tab-ergebnisse">Ergebnisse</sl-tab>
+      <sl-tab slot="nav" panel="tab-ergebnisse">Ausdruck</sl-tab>
       <sl-tab id="id_tab_mass" slot="nav" panel="tab-mass" disabled>Dynamik</sl-tab>
       <sl-tab slot="nav" panel="tab-pro">Pro</sl-tab>
       <sl-tab slot="nav" panel="tab-info">Info</sl-tab>
@@ -242,8 +233,11 @@ Bearbeitet von: Melis Muster" title="Buchstaben in Fett durch <b> und </b> einra
               <td>
                 <sl-button id="clear" value="clear" @click="${handleClick_neue_eingabe}">neue Eingabe beginnen</sl-button>
               </td>
+            </tr>
+            <tr>
+              <td></td>
               <td>
-                <sl-button id="id_check" value="check" @click="${handleClick_eingabe_ueberpruefen}">Eingabe prüfen</sl-button>
+                <sl-button id="id_check" value="check" @click="${handleClick_eingabe_ueberpruefen}" style="min-width:100%;">Eingabe prüfen</sl-button>
               </td>
             </tr>
             <tr>
@@ -1345,32 +1339,32 @@ function dialog_closed(e: any) {
     {
       let elem = el?.shadowRoot?.getElementById("emodul") as HTMLInputElement;
       //console.log("emodul=", elem.value);
-      const emodul = +elem.value.replace(/,/g, '.');
+      const emodul = +elem.value.replace(/,/g, ".");
       elem = el?.shadowRoot?.getElementById("traeg_y") as HTMLInputElement;
-      const Iy = +elem.value.replace(/,/g, '.');
+      const Iy = +elem.value.replace(/,/g, ".");
       elem = el?.shadowRoot?.getElementById("area") as HTMLInputElement;
-      const area = +elem.value.replace(/,/g, '.');
+      const area = +elem.value.replace(/,/g, ".");
       elem = el?.shadowRoot?.getElementById("qname") as HTMLInputElement;
-      const qname = elem.value.replace(/,/g, '.');
+      const qname = elem.value.replace(/,/g, ".");
       elem = el?.shadowRoot?.getElementById("height") as HTMLInputElement;
-      const height = +elem.value.replace(/,/g, '.');
+      const height = +elem.value.replace(/,/g, ".");
       elem = el?.shadowRoot?.getElementById("width") as HTMLInputElement;
-      const width = +elem.value.replace(/,/g, '.');
+      const width = +elem.value.replace(/,/g, ".");
       //         elem = el?.shadowRoot?.querySelector('.radio-group-querschnitt') as any;
       elem = el?.shadowRoot?.getElementById("id_defquerschnitt") as any;
       //console.log("defquerschnitt", elem)
-      const defquerschnitt = +elem.value.replace(/,/g, '.');
+      const defquerschnitt = +elem.value.replace(/,/g, ".");
       //console.log("defquerschnitt", defquerschnitt)
       elem = el?.shadowRoot?.getElementById("schubfaktor") as HTMLInputElement;
-      const schubfaktor = +elem.value.replace(/,/g, '.');
+      const schubfaktor = +elem.value.replace(/,/g, ".");
       elem = el?.shadowRoot?.getElementById("querdehnzahl") as HTMLInputElement;
-      const querdehnzahl = +elem.value.replace(/,/g, '.');
+      const querdehnzahl = +elem.value.replace(/,/g, ".");
       elem = el?.shadowRoot?.getElementById("wichte") as HTMLInputElement;
-      const wichte = +elem.value.replace(/,/g, '.');
+      const wichte = +elem.value.replace(/,/g, ".");
       elem = el?.shadowRoot?.getElementById("zso") as HTMLInputElement;
-      const zso = +elem.value.replace(/,/g, '.');
+      const zso = +elem.value.replace(/,/g, ".");
       elem = el?.shadowRoot?.getElementById("alpha_t") as HTMLInputElement;
-      const alphaT = +elem.value.replace(/,/g, '.');
+      const alphaT = +elem.value.replace(/,/g, ".");
       //console.log("dialog_closed",elem.value,alphaT)
 
       //console.log("ALPHA T = ", alphaT);
@@ -1380,22 +1374,7 @@ function dialog_closed(e: any) {
 
         set_querschnittRechteck(qname, id, emodul, Iy, area, height, width, defquerschnitt, wichte, schubfaktor, querdehnzahl, zso, alphaT);
       } else {
-        update_querschnittRechteck(
-          dialog_querschnitt_index,
-          qname,
-          id,
-          emodul,
-          Iy,
-          area,
-          height,
-          width,
-          defquerschnitt,
-          wichte,
-          schubfaktor,
-          querdehnzahl,
-          zso,
-          alphaT
-        );
+        update_querschnittRechteck(dialog_querschnitt_index, qname, id, emodul, Iy, area, height, width, defquerschnitt, wichte, schubfaktor, querdehnzahl, zso, alphaT);
 
         // Name des Querschnitts in Querschnitts-tree (tab Querschnitte) ändern
         const el = document.getElementById(dialog_querschnitt_item_id) as HTMLElement;
@@ -1554,21 +1533,7 @@ export function opendialog(ev: any) {
     //let qname: string = '', id0: string = ''
     //let emodul: number = 0, Iy: number = 0, area: number = 0, height: number = 0, bettung: number = 0, wichte: number = 0;
 
-    const [
-      qname,
-      id0,
-      emodul,
-      Iy,
-      area,
-      height,
-      width,
-      definedQuerschnitt,
-      wichte,
-      schubfaktor,
-      querdehnzahl,
-      zso,
-      alphaT,
-    ] = get_querschnittRechteck(index);
+    const [qname, id0, emodul, Iy, area, height, width, definedQuerschnitt, wichte, schubfaktor, querdehnzahl, zso, alphaT] = get_querschnittRechteck(index);
 
     //if (id0 !== id) console.log("BIG Problem in opendialog");
 
@@ -1597,12 +1562,12 @@ export function opendialog(ev: any) {
     elem.value = String(querdehnzahl);
     elem = el?.shadowRoot?.getElementById("zso") as HTMLInputElement;
     elem.value = String(zso);
-    let wert = String(myFormat(Number(alphaT), 1, 6, 1)).replace(/,/g, '.');
+    let wert = String(myFormat(Number(alphaT), 1, 6, 1)).replace(/,/g, ".");
     elem = el?.shadowRoot?.getElementById("alpha_t") as HTMLInputElement;
     // elem.setAttribute('value', String(myFormat(Number(alphaT), 1, 6, 1)));
-    console.log("myformat", alphaT, '|', myFormat(Number(alphaT), 1, 6, 1), '|', String(myFormat(Number(alphaT), 1, 6, 1)))
+    console.log("myformat", alphaT, "|", myFormat(Number(alphaT), 1, 6, 1), "|", String(myFormat(Number(alphaT), 1, 6, 1)));
     //    elem.value = String(alphaT);
-    elem.value = wert
+    elem.value = wert;
   }
 
   //const el=document.getElementById(id);
@@ -1911,16 +1876,16 @@ function dialog_neue_eingabe_closed(this: any, e: any) {
     el = document.getElementById("id_button_nkoppelfedern") as drButtonPM;
     el.setValue(0);
 
-    elSel = document.getElementById('id_stadyn') as HTMLSelectElement;
-    elSel.value = '0';
+    elSel = document.getElementById("id_stadyn") as HTMLSelectElement;
+    elSel.value = "0";
 
     const id_mass = document.getElementById("id_tab_mass") as SlSelect;
     id_mass.disabled = true;
 
-    elSel = document.getElementById('id_THIIO') as HTMLSelectElement;
+    elSel = document.getElementById("id_THIIO") as HTMLSelectElement;
     elSel.options[0].selected = true;
 
-    elSel = document.getElementById('id_matprop') as HTMLSelectElement;
+    elSel = document.getElementById("id_matprop") as HTMLSelectElement;
     elSel.options[0].selected = true;
 
     resizeTables();

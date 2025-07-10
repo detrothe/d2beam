@@ -1735,7 +1735,7 @@ export class CTimoshenko_beam extends CElement {
                     this.bettung_[iLastf][iteil] = press
 
                 }
-                else /*if (THIIO_flag === 1)*/ { // ikomb=iLastf
+                else /*if (THIIO_flag === 1)*/ {
 
 
                     Nx = this.FL[3 * iteil]
@@ -1745,8 +1745,26 @@ export class CTimoshenko_beam extends CElement {
                     wx = this.edispL[3 * iteil + 1]
                     phix = -this.edispL[3 * iteil + 2]
 
-                    // TODO     noch knotenverformung einbauen    !!!!!!!
+                    for (let ieload = 0; ieload < neloads; ieload++) {
 
+                        if (eload[ieload].element === ielem) {
+                            const index = eload[ieload].lf - 1
+                            if (kombiTabelle[iLastf][index] !== 0.0) {
+
+                                if (eload[ieload].art === 8) {         // Knotenverformung
+                                    if (iteil === 0) {
+                                        ux += eload[ieload].dispL0[0] * kombiTabelle[iLastf][index];
+                                        wx += eload[ieload].dispL0[1] * kombiTabelle[iLastf][index];
+                                        phix += eload[ieload].dispL0[2] * kombiTabelle[iLastf][index];
+                                    } else {
+                                        ux += eload[ieload].dispL0[3] * kombiTabelle[iLastf][index];
+                                        wx += eload[ieload].dispL0[4] * kombiTabelle[iLastf][index];
+                                        phix += eload[ieload].dispL0[5] * kombiTabelle[iLastf][index];
+                                    }
+                                }
+                            }
+                        }
+                    }
 
                     press = -wx * this.k_0
 
