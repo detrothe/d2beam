@@ -2,7 +2,7 @@
   "id": "/",
   "scope": "/",
   "name": "PWA D2BEAM",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "display": "standalone",
   "start_url": "/",
   "short_name": "d2beam",
