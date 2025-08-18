@@ -69,7 +69,7 @@ import { ConfirmDialog, AlertDialog } from "./confirm_dialog";
 import SlButton from "@shoelace-style/shoelace/dist/components/button/button.js";
 
 //########################################################################################################################
-let theFooter = "2D structural analysis of frames and trusses, v1.5.3, 5-August-2025, ";
+let theFooter = "2D structural analysis of frames and trusses, v1.5.4, 18-August-2025, ";
 //########################################################################################################################
 
 let hostname = window.location.hostname;
